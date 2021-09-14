@@ -142,10 +142,9 @@ public class GraphImpl implements Graph {
         }
     }
 
-    public Map<Vertex, ArrayList<Vertex>> minWeight(String start, String finish) {
+    public Map<String, Integer> minWeight(String start, String finish) {
 
-        Map<Vertex, ArrayList<Vertex>> map = new HashMap<>();
-        Map<String, Integer> integerMap = new HashMap<>();
+        Map<String, Integer> map = new HashMap<>();
 
         int startIndex = indexOf(start);
         int finishIndex = indexOf(finish);
@@ -155,22 +154,23 @@ public class GraphImpl implements Graph {
         }
 
         for (Vertex v : vertexList) {
-            map.put(v, new ArrayList<>());
-            integerMap.put(v.getLabel(), maxWeight);
+            map.put(v.getLabel(), maxWeight);
 
         }
 
         Queue<Vertex> stack = new LinkedList<>();
-        Vertex vertex = vertexList.get(startIndex);
+        Vertex vertex1 = vertexList.get(startIndex);
 
-        visitVertex(stack, vertex);
+        visitVertex(stack, vertex1);
         while (!stack.isEmpty()) {
-            vertex = getNearUnvisitedVertex(stack.peek());
+            Vertex vertex2 = getNearUnvisitedVertex(stack.peek());
 
-            if (integerMap.get(vertex.getLabel() > ))
+            if (map.get(vertex2.getLabel()) > (map.get(vertex1.getLabel()) + adjMatrix[indexOf(vertex1.getLabel())][indexOf(vertex2.getLabel())])) {
+                map.put(vertex2.getLabel(), map.get(vertex1.getLabel()) + adjMatrix[indexOf(vertex1.getLabel())][indexOf(vertex2.getLabel())]);
+            }
 
-            if (vertex != null || !vertex.equals(vertexList.get(finishIndex))) {
-                visitVertex(stack, vertex);
+            if (vertex2 != null || !vertex2.equals(vertexList.get(finishIndex))) {
+                visitVertex(stack, vertex2);
             } else {
                 stack.remove();
             }
