@@ -101,14 +101,15 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
     @Override
     public V get(K key) {
         int index = indexOf(key);
-        if (index == -1 || data[index] == null) return null;
-        while (data[index].nextItem != null) {
-            if (!data[index].getKey().equals(key)) {
-                data[index] = data[index].nextItem;
+        if (index == -1) return null;
+        Item item = data[index];
+        while (item != null) {
+            if (!item.getKey().equals(key)) {
+                item = item.nextItem;
             }else break;
 
         }
-        return data[index].getValue();
+        return (V)item.getValue();
     }
 
     @Override
@@ -120,11 +121,14 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
         }
         Item<K, V> tempItem = data[index];
 
-
-        while (tempItem != null){
-            if (tempItem.getKey().equals(key)) {
-                data[index] = data[index].nextItem;
-            } else tempItem = data[index].nextItem;
+        if (tempItem.getKey().equals(key)) data[index] = data[index].nextItem;
+        else {
+            Item it = data[index].nextItem;
+            while (it != null) {
+                if (it.getKey().equals(key)) {
+                    tempItem = it.nextItem;
+                } else it = it.nextItem;
+            }
         }
 
 
