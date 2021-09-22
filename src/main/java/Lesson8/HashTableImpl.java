@@ -126,7 +126,7 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
             Item it = data[index].nextItem;
             while (it != null) {
                 if (it.getKey().equals(key)) {
-                    tempItem = it.nextItem;
+                    tempItem = it;
                 } else it = it.nextItem;
             }
         }
