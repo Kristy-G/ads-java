@@ -1,7 +1,5 @@
 package Lesson8;
 
-import java.util.ArrayList;
-
 public interface HashTable<K, V> {
 
     boolean put(K key, V value);
