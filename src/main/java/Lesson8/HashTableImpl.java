@@ -103,7 +103,7 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
             }else item = item.nextItem;
 
         }
-        if (item == null) return null;
+        if (!isKeysEquals(item, key)) return null;
         return (V)item.getValue();
     }
 
