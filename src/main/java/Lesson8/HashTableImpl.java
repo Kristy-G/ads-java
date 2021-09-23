@@ -1,8 +1,5 @@
 package Lesson8;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class HashTableImpl<K, V> implements HashTable<K, V> {
 
     static class Item<K, V> implements Entry<K, V> {
@@ -57,12 +54,9 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
     public boolean put(K key, V value) {
 
         int index = hashFunc(key);
-        if (data[index] == null) {
-            data[index] = new Item<>(key, value);
-        }
-        else {
-            data[index].nextItem = new Item(key, value);
-        }
+        Item item = new Item(key, value);
+        item.nextItem = data[index];
+        data[index] = item;
         size++;
         return true;
     }
@@ -123,10 +117,11 @@ public class HashTableImpl<K, V> implements HashTable<K, V> {
 
         if (tempItem.getKey().equals(key)) data[index] = data[index].nextItem;
         else {
-            Item it = data[index].nextItem;
-            while (it != null) {
-                if (it.getKey().equals(key)) {
-                    tempItem = it;
+            Item it = data[index];
+            while (it.nextItem != null) {
+                if (it.nextItem.getKey().equals(key)) {
+                    tempItem = it.nextItem;
+                    it.nextItem = tempItem.nextItem;
                 } else it = it.nextItem;
             }
         }
